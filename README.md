@@ -1,6 +1,8 @@
 # formula-help-demo
 
-Simple google-spreadsheets help formula demo
+Simple google-spreadsheets help formula demo.
+
+Demo: https://alexyegupov.github.io/formula-help-demo
 
 
 TODO:
