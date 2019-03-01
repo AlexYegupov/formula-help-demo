@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test cell help</title>
+    <link type="text/css" rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="content">
+      <div id="cell" contenteditable class="cell box">=SUM(10, 20 ) + MINUS( 10,20) - MULTIPLY(10 ,3) * UNKNOWN(34,55) / DIVIDE( 10 , 2 )</div>
+
+      <div id="help" class="box help"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
+
+<!--
+
+Notes:
+ - editable div syntax is not highlighted (it could be implemented via invisible text & background div but looks out of scope of this task)
+
+TODO:
+ - consider cursor after trailing comma as last param: SUM(1,2,3,|)
+ - display help without partial and braces     
+ - process space after function name: SUM (1,2,3)
+ - load info about functions via ajax
+ - make "⏴" as active param marker instead of disc and smooth moving
+ - load fonts statically (not from cdn)
+-->
