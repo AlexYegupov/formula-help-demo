@@ -183,7 +183,7 @@ function generateFunctionHelpHTML(name, paramIndex) {
       ${paramsListItemsHTML}
 
       <li>
-        <a href="#">Learn more about SUM</a>
+        <a href="#">Learn more about ${name}</a>
       </li>
     </ul>
   `
