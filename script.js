@@ -8,7 +8,7 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
 
   if (cursorPosition < 0 || paramStr.length < cursorPosition) return null;
 
-  const re = RegExp(`[^,]+`,'g');
+  const re = RegExp('[^,]+', 'g')
   let r;
   let index = 0;
 
@@ -26,12 +26,22 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
   return null;
 }
 
+// on real projects need memoize it
+function getFuncNames() {
+ return Object.keys(HELP.funcs)
+}
 
-function getFunctUnderCursor(s, cursorPosition) {
-  console.log(`getFunctUnderCursor for "${s}" at ${cursorPosition}`)
+function getFuncCandidateUnderCursor(s, cursorPosition) {
+  console.log(`getFuncCandidateUnderCursor for "${s}" at ${cursorPosition}`)
+
+  return null;
+}
+
+function getExactFuncUnderCursor(s, cursorPosition) {
+  console.log(`getExactFuncUnderCursor for "${s}" at ${cursorPosition}`)
   let result = null;
-  const funcNames = Object.keys(HELP.funcs).join('|');
-  const re = RegExp(`(${funcNames})\\((.*?)\\)`, 'g');
+  const funcNamesRe = getFuncNames().join('|');
+  const re = RegExp(`(${funcNamesRe})\\((.*?)\\)`, 'g');
   let r;
 
   while ((r = re.exec(s)) !== null) {
@@ -62,17 +72,38 @@ function getFunctUnderCursor(s, cursorPosition) {
 }
 
 
-function handleChange(e) {
-  //console.log('handleChange', e)
-  const func = getFunctUnderCursor(activeCell.textContent, window.getSelection().anchorOffset)
-
+function setHelpHTML(helpHTML) {
   const helpElement = document.getElementById('help');
-  if (func) {
-    helpElement.innerHTML = generateFunctionHelpHTML(func.name, func.paramIndex)
+  if (helpHTML) {
+    helpElement.innerHTML = helpHTML
     helpElement.style.display = 'block'
   } else {
     helpElement.style.display = 'none'
   }
+}
+
+
+function handleChange(e) {
+  //console.log('handleChange', e)
+
+  const text = activeCell.textContent;
+  const offset = window.getSelection().anchorOffset;
+
+  // try to display exact function help
+  const exactFunc = getExactFuncUnderCursor(text, offset)
+  if (exactFunc) {
+    setHelpHTML(generateFunctionHelpHTML(exactFunc.name, exactFunc.paramIndex))
+    return;
+  }
+
+  //
+  // const exactFunc = getFuncCandidateUnderCursor(text, offset)
+  // if (exactFunc) {
+  //   setHelpHTML(generateFunctionHelpHTML(exactFunc.name, exactFunc.paramIndex))
+  //   return;
+  // }
+
+  setHelpHTML(null)
 }
 
 // note: alternatively can implement via createElement etc (on real projects consider speed, simplicity, etc)
