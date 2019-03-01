@@ -1,4 +1,3 @@
-// TODO: get via ajax
 let HELP = {
   funcs: {
     SUM: {
@@ -90,7 +89,7 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
 function getFunctUnderCursor(s, cursorPosition) {
   console.log(`getFunctUnderCursor for "${s}" at ${cursorPosition}`)
   let result = null;
-  var re = RegExp(`(${funcNames})\\((.+?)\\)`,'g');
+  var re = RegExp(`(${funcNames})\\((.*?)\\)`,'g');
   var r;
 
   while ((r = re.exec(s)) !== null) {
