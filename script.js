@@ -4,7 +4,7 @@ let activeCell;
 
 
 function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
-  console.log('getFunctionParamIndexUnderCursor', paramStr, cursorPosition)
+  //console.log('getFunctionParamIndexUnderCursor', paramStr, cursorPosition)
 
   if (cursorPosition < 0 || paramStr.length < cursorPosition) return null;
 
@@ -29,12 +29,6 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
 // on real projects need memoize it
 function getFuncNames() {
  return Object.keys(HELP.funcs)
-}
-
-function getFuncCandidateUnderCursor(s, cursorPosition) {
-  console.log(`getFuncCandidateUnderCursor for "${s}" at ${cursorPosition}`)
-
-  return null;
 }
 
 function getExactFuncUnderCursor(s, cursorPosition) {
@@ -70,7 +64,7 @@ function getExactFuncUnderCursor(s, cursorPosition) {
 
 function getFuncCandidatesUnderCursor(s, cursorPosition) {
   //console.log(`getFuncCandidatesUnderCursor for "${s}" at ${cursorPosition}`)
-  const funcNamesRe = getFuncNames().join('|');
+
   const re = RegExp(`([A-Z]+)`, 'g');  // for demo used naive simplified function name regexp
   let r;
 
