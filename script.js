@@ -38,7 +38,7 @@ function getFuncCandidateUnderCursor(s, cursorPosition) {
 }
 
 function getExactFuncUnderCursor(s, cursorPosition) {
-  console.log(`getExactFuncUnderCursor for "${s}" at ${cursorPosition}`)
+  //console.log(`getExactFuncUnderCursor for "${s}" at ${cursorPosition}`)
   let result = null;
   const funcNamesRe = getFuncNames().join('|');
   const re = RegExp(`(${funcNamesRe})\\((.*?)\\)`, 'g');
@@ -47,19 +47,16 @@ function getExactFuncUnderCursor(s, cursorPosition) {
   while ((r = re.exec(s)) !== null) {
     const [foundStr, name, paramStr] = r
 
-     // naively extract params (in real project mature grammar parser will be used anyway)
-    //const params = paramStr.split(',').map(str => str.trim()).filter(Boolean)
-
     const rangeStart = r.index
     const rangeFinish = r.index + foundStr.length
 
-    console.log(`Found "${foundStr}" at ${rangeStart}..${rangeFinish}. Next starts at ${re.lastIndex}.`);
-    console.log(r)
+    //console.log(`Found "${foundStr}" at ${rangeStart}..${rangeFinish}. Next starts at ${re.lastIndex}.`);
+    //console.log(r)
     //console.log(name, paramStr)
     //console.log(`${cursorPosition} -> ${rangeStart}..${rangeFinish}`)
 
     if (cursorPosition < rangeFinish) {
-      if (rangeStart < cursorPosition) {
+      if (rangeStart <= cursorPosition) {
         const paramIndex = getFunctionParamIndexUnderCursor(
           paramStr, cursorPosition - rangeStart - name.length - 1
         )
@@ -71,9 +68,30 @@ function getExactFuncUnderCursor(s, cursorPosition) {
   return result;
 }
 
-function getFuncCandidatesUnderCursor(text, cursorPosition) {
-  //return getFuncNames.filter( name => )
-  return ['SUM', 'MINUS']
+function getFuncCandidatesUnderCursor(s, cursorPosition) {
+  //console.log(`getFuncCandidatesUnderCursor for "${s}" at ${cursorPosition}`)
+  const funcNamesRe = getFuncNames().join('|');
+  const re = RegExp(`([A-Z]+)`, 'g');  // for demo used naive simplified function name regexp
+  let r;
+
+  while ((r = re.exec(s)) !== null) {
+    const [foundStr, ] = r
+
+    const rangeStart = r.index
+    const rangeFinish = r.index + foundStr.length
+
+    //console.log(`Found "${foundStr}" at ${rangeStart}..${rangeFinish}. Next starts at ${re.lastIndex}.`);
+    //console.log(r)
+    //console.log(name, paramStr)
+    //console.log(`${cursorPosition} -> ${rangeStart}..${rangeFinish}`)
+
+    if (cursorPosition <= rangeFinish) {
+      if (rangeStart <= cursorPosition) {
+        return getFuncNames().filter( name => name.includes(foundStr) )
+      }
+    }
+  }
+  return null;
 }
 
 function setHelpHTML(helpHTML) {
@@ -100,6 +118,7 @@ function handleChange(e) {
     return;
   }
 
+  // try to display function name candidates help
   const funcCandidates = getFuncCandidatesUnderCursor(text, offset)
   if (funcCandidates) {
     setHelpHTML(generateFunctionCandidatesListHTML(funcCandidates))
