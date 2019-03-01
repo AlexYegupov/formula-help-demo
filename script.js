@@ -4,8 +4,6 @@ let activeCell;
 
 
 function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
-  //console.log('getFunctionParamIndexUnderCursor', paramStr, cursorPosition)
-
   if (cursorPosition < 0 || paramStr.length < cursorPosition) return null;
 
   const re = RegExp('[^,]+', 'g')
@@ -16,7 +14,6 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
     const rangeStart = r.index
     const rangeFinish = r.index + r[0].length
 
-    //console.log('>>',r, rangeStart, '..' ,rangeFinish)
     if (rangeStart <= cursorPosition && cursorPosition <= rangeFinish) {
       return index;
     }
@@ -32,7 +29,6 @@ function getFuncNames() {
 }
 
 function getExactFuncUnderCursor(s, cursorPosition) {
-  //console.log(`getExactFuncUnderCursor for "${s}" at ${cursorPosition}`)
   let result = null;
   const funcNamesRe = getFuncNames().join('|');
   const re = RegExp(`(${funcNamesRe})\\((.*?)\\)`, 'g');
@@ -43,11 +39,6 @@ function getExactFuncUnderCursor(s, cursorPosition) {
 
     const rangeStart = r.index
     const rangeFinish = r.index + foundStr.length
-
-    //console.log(`Found "${foundStr}" at ${rangeStart}..${rangeFinish}. Next starts at ${re.lastIndex}.`);
-    //console.log(r)
-    //console.log(name, paramStr)
-    //console.log(`${cursorPosition} -> ${rangeStart}..${rangeFinish}`)
 
     if (cursorPosition < rangeFinish) {
       if (rangeStart <= cursorPosition) {
@@ -63,8 +54,6 @@ function getExactFuncUnderCursor(s, cursorPosition) {
 }
 
 function getFuncCandidatesUnderCursor(s, cursorPosition) {
-  //console.log(`getFuncCandidatesUnderCursor for "${s}" at ${cursorPosition}`)
-
   const re = RegExp(`([A-Z]+)`, 'g');  // for demo used naive simplified function name regexp
   let r;
 
@@ -73,11 +62,6 @@ function getFuncCandidatesUnderCursor(s, cursorPosition) {
 
     const rangeStart = r.index
     const rangeFinish = r.index + foundStr.length
-
-    //console.log(`Found "${foundStr}" at ${rangeStart}..${rangeFinish}. Next starts at ${re.lastIndex}.`);
-    //console.log(r)
-    //console.log(name, paramStr)
-    //console.log(`${cursorPosition} -> ${rangeStart}..${rangeFinish}`)
 
     if (cursorPosition <= rangeFinish) {
       if (rangeStart <= cursorPosition) {
@@ -100,8 +84,6 @@ function setHelpHTML(helpHTML) {
 
 
 function handleChange(e) {
-  //console.log('handleChange', e)
-
   const text = activeCell.textContent;
   const offset = window.getSelection().anchorOffset;
 
