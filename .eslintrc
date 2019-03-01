@@ -1,0 +1,231 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    //?? "eslint-config-airbnb",
+    //"react-tools"  // from react-static
+    "react-app",  //take from CRA (
+  ],
+
+  // use babel-eslint to parse class decorators (until eslint doesn't support it)
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "browser": true,
+    "mocha": true,
+    "es6": true,
+  },
+  "plugins": [
+    "no-loops",
+    "react",
+    //"jsx-a11y",
+    "import"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "blockBindings": true,
+      "experimentalObjectRestSpread": true
+      
+    }
+  },
+  "rules": {
+    //comma-dangle: 1,
+    no-undef: 2,
+    comma-dangle: 0,
+    "no-console": "warn",
+    "import/no-commonjs": 0,
+    "no-unused-vars": ["warn", { "args": "none"}],
+
+    // disable some airbnb rules
+    "semi": "off",   // use no-unexpected-multiline instead
+    object-curly-spacing: "off",
+    space-in-paren: "off",
+    arrow-parens: "off",
+    space-in-parens: "off",
+    no-prototype-builtins: "off", // too specific limitation (disabled to allow o.hasOwnProperty(...)
+    function-paren-newline: "off",
+    no-multi-spaces: ["warn", { ignoreEOLComments: true }],
+    no-multiple-empty-lines: "off",
+    spaced-comment: "off",
+    keyword-spacing: ["error", { "overrides": { "catch": { "after": false }, } }],
+    space-infix-ops: "off", // disabled until spaceless func named params support
+    react/jsx-filename-extension: off,
+    react/jsx-first-prop-new-line: off,
+    react/jsx-max-props-per-line: off,
+    react/jsx-indent-props: off,
+    react/jsx-closing-bracket-location: off,
+    no-underscore-dangle: off,
+    class-methods-use-this: off,
+    no-continue: off,
+    no-cond-assign: ["error", "except-parens"],
+    quotes: ["warn", "single", {avoidEscape: true, allowTemplateLiterals: true}],
+    max-len: off,
+    object-shorthand: off,
+    prefer-template: off, // sometimes plus-concatenation is useful tho
+    padded-blocks: off, // not so strict problem
+    no-mixed-operators: off,  // not seems to me a big problem, no extra braces
+    dot-notation: off,  // sometimes looks better: rates['USD']
+    react/jsx-indent: off,    // sometimes incorrect for nested .maps functions
+    object-curly-newline: off,   // seems not very critical
+    no-empty: ["error", { "allowEmptyCatch": true }],
+    no-lonely-if: off,     // sometimes conditions are different ideologically
+    quote-props: off,     // sometimes similar qouted looks better
+    import/prefer-default-export: off, // disagree. sometimes multiple exports ok
+    prefer-destructuring: off,   // sometimes old way looks better
+    react/jsx-wrap-multilines: off,   // not error and not imroves looks
+    react/no-array-index-key: off,   // sometimes no other way than usin indices
+    react/self-closing-comp: off, // sometimes component potentially growc
+    react/sort-comp: off,  // benefit less than afford to maintain
+    react/jsx-curly-spacing: off, // sometimes different is beautiful
+    no-param-reassign: ["error", { "props": false }],   // allow param props assign
+    "react/no-unescaped-entities": ["error", {"forbid": [">", "}"]}],  // allow quotes
+    "react/prop-types": ["warn", { skipUndeclared: true }], // allow no prop validation (completely only)
+    "react/prefer-stateless-function": ["off"], // easier for markuper to improve
+    "react/no-multi-comp": ["warn"],     // warn, not error
+    "arrow-body-style": off,  // not so big problem
+    "no-trailing-spaces": ["warn"],       // warn, not error
+    "prefer-const": ["warn"],            // warn, not error
+    "prefer-arrow-callback": ["off"],  // not needed strictly
+    "space-before-function-paren": off,  // no matters actually
+    "import/first": ["warn"],       // warn, not error
+    "func-names": ["off"],     // it's too lazy
+    "no-useless-constructor": ["warn"],       // warn, not error
+    "indent": ["off"],  //sometimes differs on editors (wrapping on long lines)
+    "array-bracket-spacing": off, // sometimes looks better with spaces
+    "react/no-unused-state": ["warn"],
+    "react/forbid-prop-types": "warn",
+    "react/no-unused-prop-types": "warn",
+
+    // ignore all jsx-a11y (no need currently)
+    "jsx-a11y/accessible-emoji": "off",
+    "jsx-a11y/alt-text": "off",
+    "jsx-a11y/anchor-has-content": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/aria-activedescendant-has-tabindex": "off",
+    "jsx-a11y/aria-props": "off",
+    "jsx-a11y/aria-proptypes": "off",
+    "jsx-a11y/aria-role": "off",
+    "jsx-a11y/aria-unsupported-elements": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/heading-has-content": "off",
+    "jsx-a11y/html-has-lang": "off",
+    "jsx-a11y/iframe-has-title": "off",
+    "jsx-a11y/img-redundant-alt": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/lang": "off",
+    "jsx-a11y/media-has-caption": "off",
+    "jsx-a11y/mouse-events-have-key-events": "off",
+    "jsx-a11y/no-access-key": "off",
+    "jsx-a11y/no-autofocus": "off",
+    "jsx-a11y/no-distracting-elements": "off",
+    "jsx-a11y/no-interactive-element-to-noninteractive-role": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/no-noninteractive-element-to-interactive-role": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off",
+    "jsx-a11y/no-onchange": "off",
+    "jsx-a11y/no-redundant-roles": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/role-has-required-aria-props": "off",
+    "jsx-a11y/role-supports-aria-props": "off",
+    "jsx-a11y/scope": "off",
+    "jsx-a11y/tabindex-no-positive": "off",
+
+    "react/jsx-curly-brace-presence": "off", // not a problem to use them everywhere
+
+
+    // FROM INSIGHT customer
+    "eqeqeq": "error",
+    "no-var": "error",
+    //"no-empty": "error",
+    "use-isnan": "error",
+    //"no-console": "warn",
+    "key-spacing": "warn",  //just a warn
+    "no-dupe-args": "error",
+    //"dot-notation": "error",
+    "no-redeclare": "error",
+    "no-dupe-keys": "error",
+    "getter-return": "error",
+    "arrow-spacing": "warn",
+    "comma-spacing": "warn", // just a warn
+    //"no-unused-vars": "error",
+    "no-class-assign": "error",
+    //"no-multi-spaces": "error",
+    "no-useless-call": "error",
+    //"prefer-template": "error",
+    "no-return-await": "error",
+    "no-await-in-loop": "error",
+    "constructor-super": "error",
+    "no-duplicate-case": "error",
+    "no-invalid-regexp": "error",
+    //"no-trailing-spaces": "error",
+    "no-unsafe-negation": "error",
+    "no-unneeded-ternary": "error",
+    "no-this-before-super": "error",
+    "no-duplicate-imports": "error",
+    //"no-useless-constructor": "error",
+    "computed-property-spacing": "error",
+    "no-whitespace-before-property": "error",
+    //"indent": ["error", 2],
+    //"semi": ["error","never"],
+    "yoda": ["error","never"],
+    "curly": ["error", "multi-line"],  // (ok to use at one line only)
+    //"quotes": ["error","single"],
+    "one-var": ["error","never"],
+    //"quote-props": ["error","as-needed"],
+    "brace-style": ["warn","1tbs", { "allowSingleLine": false }], // warn, not error
+    "comma-style": ["error","last"],
+    //"comma-dangle": ["error","never"],
+    //"arrow-parens": ["error","as-needed"],
+    //"prefer-const": ["error",{"destructuring": "any", "ignoreReadBeforeAssign": false}],
+    "no-else-return": ["error",{"allowElseIf": false}],
+    //"no-cond-assign": ["error","always"],
+    //"space-in-parens": ["error","never"],
+    "consistent-this": ["error","self"],
+    //"object-shorthand": ["error","always"],
+    //"arrow-body-style": ["error","as-needed"],
+    "space-before-blocks": ["warn","always"],  //just a warn
+    //"object-curly-spacing": ["error","always"],
+    "strict": 0,
+
+    "no-extra-semi":"warn",  // just warning
+    "react/display-name": "off",  // sometimes redundant 
+
+
+    "jsx-a11y/href-no-hash": "off",
+  },
+
+  "globals": {
+    "__DEVELOPMENT__": true,
+    // "__CLIENT__": true,
+    // "__SERVER__": true,
+    // "__DISABLE_SSR__": true,
+    // "__DEVTOOLS__": true,
+    //"require": true,
+    "Promise": true,
+    "Set": true,
+    "Symbol": true
+  },
+
+  "settings": {
+    'import/resolver': {
+      //?"webpack": {},
+      "node": {
+        "moduleDirectory": ["node_modules", "src"]
+      }
+    },
+    "import/ignore": [
+      "node_modules",
+      ".(scss|less|css)$",
+      ".(yaml)$",
+      "./src/utils/streamedian.min.js"
+    ],
+    //??"import/parser": "babel-eslint",
+  },
+
+}

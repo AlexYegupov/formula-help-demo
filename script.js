@@ -1,65 +1,6 @@
-let HELP = {
-  funcs: {
-    SUM: {
-      info: 'Returns the sum of a series of numbers and/or cells.',
-      params: [
-        {name: 'value1',
-         example: 'A2:A100',
-         info: 'The first number or range to add together.'
-        },
-        {name: '[value2, ...]',
-         example: '101',
-         info: "Additional numbers or ranges to add to 'value1'.",
-         repeatable: true,
-         optional: true,
-        },
-
-      ]
-    },
-    MINUS: {
-      info: "Returns the difference of two numbers. Equivalent to the '-' operator.",
-      params: [
-        {name: 'value1',
-         example: '8',
-         info: 'The minuend, or number to be subtracted from.'
-        },
-        {name: 'value2',
-         example: '3',
-         info: "The subtrahend, or number to subtract from 'value1'.",
-        },
-
-      ]
-    },
-    MULTIPLY: {
-      info: "Returns the product of two numbers. Equivalent to the '*' operator.",
-      params: [
-        {name: 'factor1',
-         example: '6',
-         info: "The first multiplicand.",
-        },
-        {name: 'factor2',
-         example: '7',
-         info: "The second multiplicand.",
-        },
-      ]
-    },
-    DIVIDE: {
-      info: "Returns one number divided by another. Equivalent to the '/' operator.",
-      params: [
-        {name: 'dividend',
-         example: '4',
-         info: 'The number to be divided.',
-        },
-        {name: 'divisor',
-         example: '2',
-         info: "The number to divide by.",
-        },
-      ]
-    },
-  }
-}
-
-let funcNames = Object.keys(HELP.funcs).join('|');
+// simply global for demo purposes
+let HELP;
+let activeCell;
 
 
 function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
@@ -67,7 +8,7 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
 
   if (cursorPosition < 0 || paramStr.length < cursorPosition) return null;
 
-  let re = RegExp(`[^,]+`,'g');
+  const re = RegExp(`[^,]+`,'g');
   let r;
   let index = 0;
 
@@ -82,15 +23,16 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
     index++
   }
 
-  return null; //
+  return null;
 }
 
 
 function getFunctUnderCursor(s, cursorPosition) {
   console.log(`getFunctUnderCursor for "${s}" at ${cursorPosition}`)
   let result = null;
-  var re = RegExp(`(${funcNames})\\((.*?)\\)`,'g');
-  var r;
+  const funcNames = Object.keys(HELP.funcs).join('|');
+  const re = RegExp(`(${funcNames})\\((.*?)\\)`, 'g');
+  let r;
 
   while ((r = re.exec(s)) !== null) {
     const [foundStr, name, paramStr] = r
@@ -120,12 +62,8 @@ function getFunctUnderCursor(s, cursorPosition) {
 }
 
 
-// global
-let activeCell;
-
 function handleChange(e) {
   //console.log('handleChange', e)
-
   const func = getFunctUnderCursor(activeCell.textContent, window.getSelection().anchorOffset)
 
   const helpElement = document.getElementById('help');
@@ -139,23 +77,21 @@ function handleChange(e) {
 
 // note: alternatively can implement via createElement etc (on real projects consider speed, simplicity, etc)
 function generateFunctionHelpHTML(name, paramIndex) {
-  //return `${name}  <b>${paramIndex}</b>`
-
   const funcHelp = HELP.funcs[name]
   const paramsHelp = funcHelp.params
 
-  let paramsHTML =
+  const paramsHTML =
     paramsHelp.map(
       (p, i) => (paramIndex === i ? `<span class="highlight">${p.name}</span>` : p.name)
     ).join(', ')
 
   // no DRY
-  let exampleParamsHTML =
+  const exampleParamsHTML =
     paramsHelp.map(
       (p, i) => (paramIndex === i ? `<span class="highlight">${p.example}</span>` : p.example)
     ).join(', ')
 
-  let paramsListItemsHTML = paramsHelp.map(
+  const paramsListItemsHTML = paramsHelp.map(
     (p, i) => `
       <li class="${paramIndex === i ? 'active' : ''}">
         <div class="grayTitle">${p.name}</div>
@@ -165,7 +101,7 @@ function generateFunctionHelpHTML(name, paramIndex) {
       </li>
     `).join('')
 
-  let r = `
+  const r = `
   <div class="title formula-font">${name}(${paramsHTML})</div>
     <ul>
       <li>
@@ -190,6 +126,7 @@ function generateFunctionHelpHTML(name, paramIndex) {
   return r
 }
 
+
 function setActiveCell(el) {
   activeCell = el
 
@@ -201,4 +138,19 @@ function setActiveCell(el) {
   activeCell.addEventListener('paste', handleChange, false);
 }
 
-setActiveCell(document.getElementById("cell"))
+
+window.onload = function () {
+  setActiveCell(document.getElementById('cell'))
+
+  // note: consider no need polyfill for fetch
+  fetch('data.json')
+    .then(function(response) {
+      // NOTE: in real projects check errors here
+      return response.json();
+    })
+    .then(function(data) {
+      HELP = data
+    })
+    .catch( alert ); // on real project need mature error checking
+
+}
