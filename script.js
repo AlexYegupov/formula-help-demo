@@ -71,6 +71,10 @@ function getExactFuncUnderCursor(s, cursorPosition) {
   return result;
 }
 
+function getFuncCandidatesUnderCursor(text, cursorPosition) {
+  //return getFuncNames.filter( name => )
+  return ['SUM', 'MINUS']
+}
 
 function setHelpHTML(helpHTML) {
   const helpElement = document.getElementById('help');
@@ -96,12 +100,11 @@ function handleChange(e) {
     return;
   }
 
-  //
-  // const exactFunc = getFuncCandidateUnderCursor(text, offset)
-  // if (exactFunc) {
-  //   setHelpHTML(generateFunctionHelpHTML(exactFunc.name, exactFunc.paramIndex))
-  //   return;
-  // }
+  const funcCandidates = getFuncCandidatesUnderCursor(text, offset)
+  if (funcCandidates) {
+    setHelpHTML(generateFunctionCandidatesListHTML(funcCandidates))
+    return;
+  }
 
   setHelpHTML(null)
 }
@@ -133,7 +136,7 @@ function generateFunctionHelpHTML(name, paramIndex) {
     `).join('')
 
   const r = `
-  <div class="title formula-font">${name}(${paramsHTML})</div>
+    <div class="title formula-font">${name}(${paramsHTML})</div>
     <ul>
       <li>
         <div class="grayTitle">Example</div>
@@ -155,6 +158,23 @@ function generateFunctionHelpHTML(name, paramIndex) {
   `
 
   return r
+}
+
+function generateFunctionCandidatesListHTML(candidates) {
+
+  const candidatesHTML = candidates.map( name => `
+      <li>
+        <span class="formula-font">${name} - ${HELP.funcs[name].info})</span>
+      </li>
+      `).join('')
+
+  const r = `
+    <ul>
+      ${candidatesHTML}
+    </ul>
+  `
+
+  return r;
 }
 
 
