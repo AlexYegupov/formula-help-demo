@@ -17,7 +17,7 @@ https://alexyegupov.github.io/formula-help-demo
 # TODO
 The following features could be implemented by requirement:
 
+ - load fonts statically (not from cdn)
  - allow space after function name: SUM |(1,2,3)
  - make "⏴" as active param marker instead of disc and smooth moving
- - load fonts statically (not from cdn)
  - editable div syntax is not highlighted (it could be implemented via invisible text & background div but looks out of scope of this task)

@@ -4,8 +4,6 @@ let activeCell;
 
 
 function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
-  //console.log('getFunctionParamIndexUnderCursor', paramStr, cursorPosition)
-
   if (cursorPosition < 0 || paramStr.length < cursorPosition) return null;
 
   const re = RegExp('[^,]*', 'g')
@@ -15,8 +13,6 @@ function getFunctionParamIndexUnderCursor(paramStr, cursorPosition) {
   while ((r = re.exec(paramStr)) !== null) {
     const rangeStart = r.index
     const rangeFinish = r.index + r[0].length
-
-    //console.log('in', cursorPosition, rangeStart, rangeFinish)
 
     if (rangeStart <= cursorPosition && cursorPosition <= rangeFinish) {
       return index;
@@ -41,7 +37,7 @@ function getFuncNames() {
 function getExactFuncUnderCursor(s, cursorPosition) {
   let result = null;
   const funcNamesRe = getFuncNames().join('|');
-  const re = RegExp(`(${funcNamesRe})\\(([^\\)]*)`, 'g');
+  const re = RegExp(`(${funcNamesRe})\w*\\(([^\\)]*)`, 'g');
   let r;
 
   while ((r = re.exec(s)) !== null) {
@@ -50,14 +46,11 @@ function getExactFuncUnderCursor(s, cursorPosition) {
     const rangeStart = r.index
     const rangeFinish = r.index + foundStr.length
 
-    //console.log(r, cursorPosition, rangeStart, rangeFinish)
-
     if (cursorPosition <= rangeFinish) {
       if (rangeStart <= cursorPosition) {
         const paramIndex = getFunctionParamIndexUnderCursor(
           paramStr, cursorPosition - rangeStart - name.length - 1
         )
-        //console.log('paramIndex:', paramIndex)
 
         result = { name, paramIndex }
       }
