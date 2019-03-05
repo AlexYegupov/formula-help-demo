@@ -98,8 +98,8 @@ function setHelpHTML(helpHTML) {
 
 
 function handleChange(e) {
-  const text = activeCell.textContent;
-  const offset = window.getSelection().anchorOffset;
+  const text = activeCell.textContent.toUpperCase()
+  const offset = window.getSelection().anchorOffset
 
   // try to display exact function help
   const exactFunc = getExactFuncUnderCursor(text, offset)
